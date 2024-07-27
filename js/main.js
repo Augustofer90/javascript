@@ -28,9 +28,9 @@ class Paciente {
 
 let pacientes = [
     new Paciente("Messi", 38),
-    new Paciente("dibu", 32),
-    new Paciente("enzo", 24),
-    new Paciente("fideo", 37),
+    new Paciente("Dibu", 32),
+    new Paciente("Enzo", 24),
+    new Paciente("Fideo", 37),
     new Paciente("DePaul", 29),
 ];
 
@@ -39,7 +39,7 @@ Bienvenido
 Elija la opcion correspondiente
 1 - Ingresar paciente
 2 - Buscar paciente
-3 - Ver todos los pacietes
+3 - Ver todos los pacientes
 4 - Filtrar por edad
 5 - Mostrar pacientes con dicha enfermedad
 6 - Salir
@@ -66,18 +66,18 @@ function mostrarMenu() {
                 mostrarPacientesPorEnfermedad();
                 break;
             default:
-                alert("Opción no valida. Intente nuevamente.");
+                alert("Opcion no valida. Intente nuevamente.");
         }
         opcion = prompt(intro);
     }
-    
+
     alert("¡Gracias por usar el sistema, la Escalonetta necesita tu Ayuda!");
 }
 
 function ingresarPaciente() {
     let nombre = prompt("Ingrese el nombre del paciente:");
     let edad = parseInt(prompt("Ingrese la edad del paciente:"));
-    let enfermedad = prompt ("ingrese la enfermedad del paciente"); /* como hago para que no se sobreescriba?*/
+    let enfermedad = prompt("ingrese la enfermedad del paciente"); /* como hago para que no se sobreescriba?*/
 
     if (nombre && !isNaN(edad)) {
         pacientes.push(new Paciente(nombre, edad));
@@ -90,18 +90,18 @@ function ingresarPaciente() {
 function buscarPaciente() {
     let nombre = prompt("Ingrese el nombre del paciente a buscar:");
     let paciente = pacientes.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
-    
+
     if (paciente) {
-        alert(`Pacinte encontrado: \nNombre: ${paciente.nombre}\nEdad: ${paciente.edad}\nEnfermedad: ${paciente.enfermedad}\nTiempo Internado: ${paciente.tiempoInternado} días`);
+        alert(`Paciente encontrado: \nNombre: ${paciente.nombre}\nEdad: ${paciente.edad}\nEnfermedad: ${paciente.enfermedad}\nTiempo Internado: ${paciente.tiempoInternado} días`);
     } else {
         alert("Paciente no encontrado.");
-     }
+    }
 }
 
 function verTodosPacientes() {
-        let mensaje = pacientes.map(p => `ID: ${p.id}, Nombre: ${p.nombre}, Edad: ${p.edad}, Enfermedad: ${p.enfermedad}, Tiempo Internado: ${p.tiempoInternado} días`).join('\n');
-        alert(`Lista de pacientes:\n${mensaje}`);
-    
+    let mensaje = pacientes.map(p => `ID: ${p.id}, Nombre: ${p.nombre}, Edad: ${p.edad}, Enfermedad: ${p.enfermedad}, Tiempo Internado: ${p.tiempoInternado} días`).join('\n');
+    alert(`Lista de pacientes:\n${mensaje}`);
+
 }
 
 function filtrarPorEdad() {
@@ -110,7 +110,7 @@ function filtrarPorEdad() {
 
     if (!isNaN(edadMin) && !isNaN(edadMax)) {
         let resultado = pacientes.filter(p => p.edad >= edadMin && p.edad <= edadMax);
-        
+
         if (resultado.length > 0) {
             let mensaje = resultado.map(p => `Nombre: ${p.nombre}, Edad: ${p.edad}, Enfermedad: ${p.enfermedad}, Tiempo Internado: ${p.tiempoInternado} días`).join('\n');
             alert(`Pacientes en el rango de edad ${edadMin} a ${edadMax}:\n${mensaje}`);
@@ -122,16 +122,16 @@ function filtrarPorEdad() {
     }
 }
 
- function mostrarPacientesPorEnfermedad() {
-    let enfermedadBuscada = prompt("Ingrese la enfermedad para busscar pacientes:");
+function mostrarPacientesPorEnfermedad() {
+    let enfermedadBuscada = prompt("Ingrese la enfermedad para buscar pacientes:");
     let resultado = pacientes.filter(p => p.enfermedad.toLowerCase() === enfermedadBuscada.toLowerCase());
-    
+
     if (resultado.length > 0) {
         let mensaje = resultado.map(p => `Nombre: ${p.nombre}, Edad: ${p.edad}, Tiempo internado: ${p.tiempoInternado} dias`).join('\n');
         alert(`Pacientes con la enfermedad ${enfermedadBuscada}:\n${mensaje}`);
     } else {
         alert("No se encontraron pacientes con esa enfermedad.");
     }
- }
+}
 
- mostrarMenu();
+mostrarMenu();
