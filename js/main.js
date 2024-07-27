@@ -66,7 +66,7 @@ function mostrarMenu() {
                 mostrarPacientesPorEnfermedad();
                 break;
             default:
-                alert("Opción no válida. Intente nuevamente.");
+                alert("Opción no valida. Intente nuevamente.");
         }
         opcion = prompt(intro);
     }
@@ -81,7 +81,7 @@ function ingresarPaciente() {
 
     if (nombre && !isNaN(edad)) {
         pacientes.push(new Paciente(nombre, edad));
-        alert("Paciente ingresado con éxito.");
+        alert("Paciente ingresado con exito.");
     } else {
         alert("Error! Intente otra vez.");
     }
@@ -105,8 +105,8 @@ function verTodosPacientes() {
 }
 
 function filtrarPorEdad() {
-    let edadMin = parseInt(prompt("Ingrese la edad mínima para filtrar:"));
-    let edadMax = parseInt(prompt("Ingrese la edad máxima para filtrar:"));
+    let edadMin = parseInt(prompt("Ingrese la edad minima para filtrar:"));
+    let edadMax = parseInt(prompt("Ingrese la edad maxima para filtrar:"));
 
     if (!isNaN(edadMin) && !isNaN(edadMax)) {
         let resultado = pacientes.filter(p => p.edad >= edadMin && p.edad <= edadMax);
@@ -118,16 +118,16 @@ function filtrarPorEdad() {
             alert("No se encontraron pacientes en ese rango de edad.");
         }
     } else {
-        alert("Rango de edad no válido.");
+        alert("Rango de edad no valido.");
     }
 }
 
  function mostrarPacientesPorEnfermedad() {
-    let enfermedadBuscada = prompt("Ingrese la enfermedad para buscar pacientes:");
+    let enfermedadBuscada = prompt("Ingrese la enfermedad para busscar pacientes:");
     let resultado = pacientes.filter(p => p.enfermedad.toLowerCase() === enfermedadBuscada.toLowerCase());
     
     if (resultado.length > 0) {
-        let mensaje = resultado.map(p => `Nombre: ${p.nombre}, Edad: ${p.edad}, Tiempo Internado: ${p.tiempoInternado} días`).join('\n');
+        let mensaje = resultado.map(p => `Nombre: ${p.nombre}, Edad: ${p.edad}, Tiempo internado: ${p.tiempoInternado} dias`).join('\n');
         alert(`Pacientes con la enfermedad ${enfermedadBuscada}:\n${mensaje}`);
     } else {
         alert("No se encontraron pacientes con esa enfermedad.");
