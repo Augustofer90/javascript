@@ -1,4 +1,3 @@
-
 const enfermedades = [
     "Gripe",
     "Cancer",
@@ -23,6 +22,7 @@ class Paciente {
         this.edad = edad;
         this.enfermedad = enfermedad(enfermedades);
         this.tiempoInternado = Math.floor(Math.random() * 365) + 1;
+        this.img = `../assets/${nombre.toLowerCase()}.webp`;
     }
 }
 
@@ -34,104 +34,29 @@ let pacientes = [
     new Paciente("DePaul", 29),
 ];
 
-let intro = `
-Bienvenido
-Elija la opcion correspondiente
-1 - Ingresar paciente
-2 - Buscar paciente
-3 - Ver todos los pacientes
-4 - Filtrar por edad
-5 - Mostrar pacientes con dicha enfermedad
-6 - Salir
-`;
+const container = document.getElementById('container');
+const template = document.getElementById('card-template').content;
 
-function mostrarMenu() {
-    let opcion = prompt(intro);
-
-    while (opcion !== '6') {
-        switch (opcion) {
-            case '1':
-                ingresarPaciente();
-                break;
-            case '2':
-                buscarPaciente();
-                break;
-            case '3':
-                verTodosPacientes();
-                break;
-            case '4':
-                filtrarPorEdad();
-                break;
-            case '5':
-                mostrarPacientesPorEnfermedad();
-                break;
-            default:
-                alert("Opcion no valida. Intente nuevamente.");
-        }
-        opcion = prompt(intro);
-    }
-
-    alert("¡Gracias por usar el sistema, la Escalonetta necesita tu Ayuda!");
+function guardarEnSessionStorage(paciente) {
+    sessionStorage.setItem(`paciente_${paciente.id}`, JSON.stringify(paciente));
+    alert(`${paciente.nombre} fue dado de alta! Muchaaaachooooosss`);
 }
 
-function ingresarPaciente() {
-    let nombre = prompt("Ingrese el nombre del paciente:");
-    let edad = parseInt(prompt("Ingrese la edad del paciente:"));
-    let enfermedad = prompt("ingrese la enfermedad del paciente"); /* como hago para que no se sobreescriba?*/
-
-    if (nombre && !isNaN(edad)) {
-        pacientes.push(new Paciente(nombre, edad));
-        alert("Paciente ingresado con exito.");
-    } else {
-        alert("Error! Intente otra vez.");
-    }
+function guardarEnLocalStorage(paciente) {
+    localStorage.setItem(`paciente_${paciente.id}`, JSON.stringify(paciente));
+    alert(`${paciente.nombre} entro en terapia intnsiva!`);
 }
 
-function buscarPaciente() {
-    let nombre = prompt("Ingrese el nombre del paciente a buscar:");
-    let paciente = pacientes.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
+pacientes.forEach(paciente => {
+    const clon = document.importNode(template, true);
+    const card = clon.querySelector('.card');
+    card.querySelector('.card-title').textContent = paciente.nombre;
+    card.querySelector('.card-text').textContent = `Edad: ${paciente.edad} años`;
+    card.querySelector('.card-text:nth-of-type(2)').textContent = `Enfermedad: ${paciente.enfermedad}`;
+    card.querySelector('.card-text:nth-of-type(3)').textContent = `Tiempo Internado: ${paciente.tiempoInternado} días`;
+    card.querySelector('.card-img-top').setAttribute('src', paciente.img);
+    card.querySelector('.save-session').addEventListener('click', () => guardarEnSessionStorage(paciente));
+    card.querySelector('.save-local').addEventListener('click', () => guardarEnLocalStorage(paciente));
 
-    if (paciente) {
-        alert(`Paciente encontrado: \nNombre: ${paciente.nombre}\nEdad: ${paciente.edad}\nEnfermedad: ${paciente.enfermedad}\nTiempo Internado: ${paciente.tiempoInternado} días`);
-    } else {
-        alert("Paciente no encontrado.");
-    }
-}
-
-function verTodosPacientes() {
-    let mensaje = pacientes.map(p => `ID: ${p.id}, Nombre: ${p.nombre}, Edad: ${p.edad}, Enfermedad: ${p.enfermedad}, Tiempo Internado: ${p.tiempoInternado} días`).join('\n');
-    alert(`Lista de pacientes:\n${mensaje}`);
-
-}
-
-function filtrarPorEdad() {
-    let edadMin = parseInt(prompt("Ingrese la edad minima para filtrar:"));
-    let edadMax = parseInt(prompt("Ingrese la edad maxima para filtrar:"));
-
-    if (!isNaN(edadMin) && !isNaN(edadMax)) {
-        let resultado = pacientes.filter(p => p.edad >= edadMin && p.edad <= edadMax);
-
-        if (resultado.length > 0) {
-            let mensaje = resultado.map(p => `Nombre: ${p.nombre}, Edad: ${p.edad}, Enfermedad: ${p.enfermedad}, Tiempo Internado: ${p.tiempoInternado} días`).join('\n');
-            alert(`Pacientes en el rango de edad ${edadMin} a ${edadMax}:\n${mensaje}`);
-        } else {
-            alert("No se encontraron pacientes en ese rango de edad.");
-        }
-    } else {
-        alert("Rango de edad no valido.");
-    }
-}
-
-function mostrarPacientesPorEnfermedad() {
-    let enfermedadBuscada = prompt("Ingrese la enfermedad para buscar pacientes:");
-    let resultado = pacientes.filter(p => p.enfermedad.toLowerCase() === enfermedadBuscada.toLowerCase());
-
-    if (resultado.length > 0) {
-        let mensaje = resultado.map(p => `Nombre: ${p.nombre}, Edad: ${p.edad}, Tiempo internado: ${p.tiempoInternado} dias`).join('\n');
-        alert(`Pacientes con la enfermedad ${enfermedadBuscada}:\n${mensaje}`);
-    } else {
-        alert("No se encontraron pacientes con esa enfermedad.");
-    }
-}
-
-mostrarMenu();
+    container.appendChild(clon);
+});
